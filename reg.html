@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/tableStyle.css">
+    <script src="manage.js" async></script>
+    <title>Pets Citizens</title>
+</head>
+
+<body>
+    <a href="index.html">Volver a página principal.</a>
+    <h1>Añadir mascota</h1>
+    <form name='formulario-js' onsubmit='return validar()'>
+        <ul>
+            <li>
+                <label for='ID'>ID*</label>
+                <input type='text' id='id' name='id' />
+            </li>
+            <li>
+                <label for='microchip'>Microchip</label>
+                <input type='text' id='microchip' name='microchip' />
+            </li>
+            <li>
+                <label for='species'>Species</label>
+                <input type='text' id='species' name='species' />
+            </li>
+            <li>
+                <label for='sex'>Sex</label>
+                <select id='sex' name='sex'>
+                    <option value=''>Choose one...</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+            </li>
+            <li>
+                <label for='size'>Size (c.m.)</label>
+                <input type='text' id='size' name='size' />
+                
+            </li>
+            <li>
+                <label for='potDangerous'>It is potentially dangerous?</label>
+                <select id='potDangerous' name='potDangerous'>
+                    <option value=''>Choose one...</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </li>
+            <li>
+                <label for='neighborhood'>Neighborhood</label>
+                <input type='neighborhood' id='neighborhood' name='neighborhood' />
+            </li>
+        </ul>
+        <button>Añadir</button>
+    </form>
+
+</body>
+
+
+</html>

@@ -10,22 +10,22 @@
     <title>Pets Citizens</title>
 </head>
 
-<body>
-    <a href="index.html">Volver a página principal.</a>
-    <h1>Añadir mascota</h1>
-    <form name='formulario-js' onsubmit='return validar()'>
+<body onload="validate(f)">
+    <a href="index.html">Back to first window.</a>
+    <h1>Add new pet</h1>
+    <form id="formu" action="" method="get" onsubmit="return validate(this)">
         <ul>
             <li>
-                <label for='ID'>ID*</label>
-                <input type='text' id='id' name='id' />
+                <label for='ID'>ID</label>
+                <input type='text' id='id' />
             </li>
             <li>
                 <label for='microchip'>Microchip</label>
-                <input type='text' id='microchip' name='microchip' />
+                <input type='text' id='microchip' />
             </li>
             <li>
                 <label for='species'>Species</label>
-                <input type='text' id='species' name='species' />
+                <input type='text' id='species' />
             </li>
             <li>
                 <label for='sex'>Sex</label>
@@ -37,8 +37,8 @@
             </li>
             <li>
                 <label for='size'>Size (c.m.)</label>
-                <input type='text' id='size' name='size' />
-                
+                <input type='text' id='size' />
+
             </li>
             <li>
                 <label for='potDangerous'>It is potentially dangerous?</label>
@@ -50,10 +50,13 @@
             </li>
             <li>
                 <label for='neighborhood'>Neighborhood</label>
-                <input type='neighborhood' id='neighborhood' name='neighborhood' />
+                <input type='neighborhood' id='neighborhood' />
+            </li>
+            <li>
+                <br><input type="submit" value="Add new pet" />
             </li>
         </ul>
-        <button>Añadir</button>
+
     </form>
 
 </body>

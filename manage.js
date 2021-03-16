@@ -15,11 +15,18 @@ let mountains = [
 function generateTable() {
   let table = document.createElement("table");
   d3.dsv(";", "./data/pets-citizens.csv").then(function (data) {
-    console.log(data);
     addTableHeads(table, data.columns);
-    for (let index = 0; index < data.length; index++) {
-      const element = data[index];
+    let rows = [];
+    for (const values of data) {
+      let row = [];
+      for (const key in values) {
+        if (Object.hasOwnProperty.call(values, key)) {
+          row.push(values[key]);
+        }
+      }
+      rows.push(row);
     }
+    addTableRows(table, rows);
   });
   //add the table to the body tag
   let body = document.querySelector("body");
@@ -54,7 +61,7 @@ function addTableRows(table, rows) {
     for (const v of c) {
       let td = document.createElement("td");
       td.className = "table";
-      let txt = document.createTextNode(c);
+      let txt = document.createTextNode(v);
       td.appendChild(txt);
       tr.appendChild(td);
     }

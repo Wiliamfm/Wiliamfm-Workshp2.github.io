@@ -14,7 +14,19 @@ let mountains = [
 */
 function generateTable() {
   let table = document.createElement("table");
-  addTableHeads(table, Object.keys(mountains[0]));
+  d3.csv("./data/pets-citizens.csv").then(function (data) {
+    let element = data.columns[0].split(";");
+    let col = [];
+    let rows = [];
+    for (let index = 0; index < element.length; index++) {
+      col[index] = element[index];
+    }
+    addTableHeads(table, col);
+    for (let index = 0; index < data.length; index++) {
+      const element = data[index];
+      console.log(element["microship"]);
+    }
+  });
   //add the table to the body tag
   let body = document.querySelector("body");
   body.appendChild(table);
@@ -27,6 +39,7 @@ function generateTable() {
  */
 function addTableHeads(table, keys) {
   let tr = document.createElement("tr");
+  tr.className = "table";
   for (let h of keys) {
     let th = document.createElement("th");
     th.className = "table";
@@ -36,7 +49,21 @@ function addTableHeads(table, keys) {
   }
   table.appendChild(tr);
   table.className = "table";
-  tr.className = "table";
+}
+
+function addTableRows(table, rows) {
+  for (let c of rows) {
+    let tr = document.createElement("tr");
+    tr.className = "table";
+    for (const v of c) {
+      let td = document.createElement("td");
+      td.className = "table";
+      let txt = document.createTextNode(c);
+      td.appendChild(txt);
+      tr.appendChild(td);
+    }
+  }
+  table.appendChild(tr);
 }
 
 function validate(f) {
@@ -91,9 +118,4 @@ function validate(f) {
       alert(msg);
     return ok;
   }
-
-  
-
-
-
 }

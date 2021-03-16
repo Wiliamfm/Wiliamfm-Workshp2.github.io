@@ -1,19 +1,16 @@
+/**
+ * Upload table.
+ */
 function upload() {
-
+  generateTable();
 }
-let mountains = [
-  { name: "Monte Falco", height: 1658, place: "Parco Foreste Casentinesi" },
-  { name: "Monte Falterona", height: 1654, place: "Parco Foreste Casentinesi" },
-  { name: "Poggio Scali", height: 1520, place: "Parco Foreste Casentinesi" },
-  { name: "Pratomagno", height: 1592, place: "Parco Foreste Casentinesi" },
-  { name: "Monte Amiata", height: 1738, place: "Siena" }
-];
 
 /** 
  * Create table
 */
 function generateTable() {
   let table = document.createElement("table");
+  table.id = "putatabla";
   d3.dsv(";", "./data/pets-citizens.csv").then(function (data) {
     let heads = ["Index"];
     data.columns.forEach(element => {
@@ -35,6 +32,7 @@ function generateTable() {
     }
     addTableRows(table, rows);
   });
+  addPagination();
   //add the table to the body tag
   let body = document.querySelector("body");
   body.appendChild(table);
@@ -46,6 +44,8 @@ function generateTable() {
  * @param {String} keys the headers of the table
  */
 function addTableHeads(table, keys) {
+  let thead = document.createElement("thead");
+  thead.className = "table";
   let tr = document.createElement("tr");
   tr.className = "table";
   for (let h of keys) {
@@ -55,11 +55,19 @@ function addTableHeads(table, keys) {
     th.appendChild(txt);
     tr.appendChild(th);
   }
-  table.appendChild(tr);
+  thead.appendChild(tr);
+  table.appendChild(thead);
   table.className = "table";
 }
 
+/**
+ * Add rows to the table.
+ * @param {Object} table the table tag
+ * @param {Array} rows the rows of the table
+ */
 function addTableRows(table, rows) {
+  let tbody = document.createElement("tbody");
+  tbody.className = "table";
   for (let c of rows) {
     let tr = document.createElement("tr");
     tr.className = "table";
@@ -70,9 +78,25 @@ function addTableRows(table, rows) {
       td.appendChild(txt);
       tr.appendChild(td);
     }
-    table.appendChild(tr);
+    tbody.appendChild(tr);
   }
-  //table.appendChild(div);
+  table.appendChild(tbody);
+}
+
+function addPagination() {
+  $(document).ready(function () {
+    $('#putatabla').DataTable({
+      'bSort': false,
+      'aoColumns': [
+        { sWidth: "45%", bSearchable: false, bSortable: false },
+        { sWidth: "45%", bSearchable: false, bSortable: false },
+        { sWidth: "10%", bSearchable: false, bSortable: false }
+      ],
+      "scrollCollapse": true,
+      "info": true,
+      "paging": true
+    });
+  });
 }
 
 function validate(f) {

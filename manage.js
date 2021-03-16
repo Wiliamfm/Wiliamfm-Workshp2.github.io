@@ -14,17 +14,11 @@ let mountains = [
 */
 function generateTable() {
   let table = document.createElement("table");
-  d3.csv("./data/pets-citizens.csv").then(function (data) {
-    let element = data.columns[0].split(";");
-    let col = [];
-    let rows = [];
-    for (let index = 0; index < element.length; index++) {
-      col[index] = element[index];
-    }
-    addTableHeads(table, col);
+  d3.dsv(";", "./data/pets-citizens.csv").then(function (data) {
+    console.log(data);
+    addTableHeads(table, data.columns);
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
-      console.log(element["microship"]);
     }
   });
   //add the table to the body tag
@@ -52,6 +46,8 @@ function addTableHeads(table, keys) {
 }
 
 function addTableRows(table, rows) {
+  let div = document.createElement("div");
+  div.className = "table";
   for (let c of rows) {
     let tr = document.createElement("tr");
     tr.className = "table";
@@ -62,8 +58,9 @@ function addTableRows(table, rows) {
       td.appendChild(txt);
       tr.appendChild(td);
     }
+    div.appendChild(tr);
   }
-  table.appendChild(tr);
+  table.appendChild(div);
 }
 
 function validate(f) {

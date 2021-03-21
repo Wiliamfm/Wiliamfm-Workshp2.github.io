@@ -1,5 +1,3 @@
-var d;
-var table;
 /**
  * Upload table.
  */
@@ -8,7 +6,9 @@ function upload() {
 }
 
 async function loadData() {
-  d = await d3.dsv(";", "./data/pets-citizens.csv");
+  let d = await d3.dsv(";", "./data/pets-citizens.csv")
+  let dJson = JSON.stringify(d);
+  localStorage.setItem("data", dJson);
 }
 
 
@@ -16,14 +16,15 @@ async function loadData() {
  * Create table
 */
 function generateTable() {
-  loadData().then(function () {
+  let d = JSON.parse(localStorage.getItem("data"));
+  if (d) {
     document.getElementById("h6").innerHTML = "";
-    table = document.createElement("table");
+    let table = document.createElement("table");
     table.id = "dataTable";
     let heads = ["Index"];
-    d.columns.forEach(element => {
-      heads.push(element);
-    });
+    for (const title in d[0]) {
+      heads.push(title);
+    }
     heads.push("ACTUALIZAR");
     addTableHeads(table, heads);
     let rows = [];
@@ -43,7 +44,37 @@ function generateTable() {
     //add the table to the body tag
     let divTable = document.getElementById("divTable");
     divTable.appendChild(table);
-  });
+  } else {
+    loadData().then(function () {
+      let d = JSON.parse(localStorage.getItem("data"));
+      document.getElementById("h6").innerHTML = "";
+      table = document.createElement("table");
+      table.id = "dataTable";
+      let heads = ["Index"];
+      for (const title in d[0]) {
+        heads.push(title);
+      }
+      heads.push("ACTUALIZAR");
+      addTableHeads(table, heads);
+      let rows = [];
+      let i = 0;
+      for (const values of d) {
+        let row = [];
+        i++;
+        row.push(i);
+        for (const key in values) {
+          if (Object.hasOwnProperty.call(values, key)) {
+            row.push(values[key]);
+          }
+        }
+        rows.push(row);
+      }
+      addTableRows(table, rows);
+      //add the table to the body tag
+      let divTable = document.getElementById("divTable");
+      divTable.appendChild(table);
+    });
+  }
 }
 
 /**
@@ -100,7 +131,8 @@ function addTableRows(table, rows) {
  * @param {object} d the data of the pets 
  */
 function addNeighborhoodForm() {
-  loadData().then(function () {
+  let d = JSON.parse(localStorage.getItem("data"));
+  if (d) {
     let selectForm = document.getElementById("neighborhood");
     let items = [];
     for (const row of d) {
@@ -112,23 +144,46 @@ function addNeighborhoodForm() {
         selectForm.appendChild(neighborhood);
       }
     }
-  });
+  } else {
+    loadData().then(function () {
+      let d = JSON.parse(localStorage.getItem("data"));
+      let selectForm = document.getElementById("neighborhood");
+      let items = [];
+      for (const row of d) {
+        if (!items.includes(row.neighborhood) && row.neighborhood != "") {
+          let neighborhood = document.createElement("option");
+          items.push(row.neighborhood);
+          neighborhood.value = row.neighborhood;
+          neighborhood.text = row.neighborhood;
+          selectForm.appendChild(neighborhood);
+        }
+      }
+    });
+  }
+
 }
 
 function upgradePet() {
   alert("Mascota registrada")
-  let id = document.getElementById("id");
-  let microchip = document.getElementById("microship");
-  let specie = document.getElementById("specie");
-  let sex = document.getElementById("sex");
-  let size = document.getElementById("size");
-  let potentDangerous = document.getElementById("potentDangerous");
-  let neighborhood = document.getElementById("neighborhood");
-  addPetToData();
-  alert(d);
+  let id = document.getElementById("id").value;
+  let microchip = document.getElementById("microship").value;
+  let specie = document.getElementById("specie").value;
+  let sex = document.getElementById("sex").value;
+  let size = document.getElementById("size").value;
+  let potentDangerous = document.getElementById("potentDangerous").value;
+  let neighborhood = document.getElementById("neighborhood").value;
+  addPetToData(microchip, specie, sex, size, potentDangerous, neighborhood);
 }
 
-function addPetToData() {
+function addPetToData(micro, spe, s, si, potentD, neighb) {
+  let item = { microchip: micro, specie: spe, sex: s, size: si, potentDangerous: potentD, neighborhood: neighb };
+  let d = JSON.parse(localStorage.getItem("data"));
+  if (d) {
+    d.unshift(item);
+  }
+  localStorage.removeItem("data");
+  d = JSON.stringify(d);
+  localStorage.setItem("data", d);
 }
 
 function validate(f) {

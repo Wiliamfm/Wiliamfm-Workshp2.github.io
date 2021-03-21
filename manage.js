@@ -22,6 +22,11 @@ function generateTable() {
     let table = document.createElement("table");
     table.id = "dataTable";
     let heads = ["Index"];
+    heads.push("ID");
+    heads.push("Owner");
+    heads.push("Race");
+    heads.push("Address");
+    heads.push("Picture");
     for (const title in d[0]) {
       heads.push(title);
     }
@@ -106,7 +111,8 @@ function addTableHeads(table, keys) {
  */
 function addTableRows(table, rows) {
   let tbody = document.createElement("tbody");
-  tbody.className = "table";
+  tbody.className = "table-responsive";
+  let id = 0;
   for (let c of rows) {
     let tr = document.createElement("tr");
     tr.className = "table";
@@ -117,10 +123,13 @@ function addTableRows(table, rows) {
       td.appendChild(txt);
       tr.appendChild(td);
     }
-    let td = document.createElement("button");
-    td.innerHTML = "ACTUALIZAR DATOS";
-    td.className = "btn btn-outline-primary";
-    tr.appendChild(td);
+    id++;
+    let button = document.createElement("button");
+    button.innerHTML = "ACTUALIZAR DATOS";
+    button.className = "btn btn-outline-primary";
+    button.id = id++;
+    button.onclick = upgradePet;
+    tr.appendChild(button);
     tbody.appendChild(tr);
   }
   table.appendChild(tbody);
@@ -132,6 +141,7 @@ function addTableRows(table, rows) {
  */
 function addNeighborhoodForm() {
   let d = JSON.parse(localStorage.getItem("data"));
+  //let n = JSON.parse(localStorage.getItem("neighborhoods"));
   if (d) {
     let selectForm = document.getElementById("neighborhood");
     let items = [];
@@ -163,20 +173,31 @@ function addNeighborhoodForm() {
 
 }
 
-function upgradePet() {
+function addPet() {
   alert("Mascota registrada")
   let id = document.getElementById("id").value;
+  let owner = document.getElementById("owner").value;
+  let addres = document.getElementById("address").value;
+  let picture = document.getElementById("picture").value;
+  let race = document.getElementById("race").value;
   let microchip = document.getElementById("microship").value;
   let specie = document.getElementById("specie").value;
   let sex = document.getElementById("sex").value;
   let size = document.getElementById("size").value;
   let potentDangerous = document.getElementById("potentDangerous").value;
   let neighborhood = document.getElementById("neighborhood").value;
-  addPetToData(microchip, specie, sex, size, potentDangerous, neighborhood);
+  addPetToData(id, owner, addres, picture, race, microchip, specie, sex, size, potentDangerous, neighborhood);
 }
 
-function addPetToData(micro, spe, s, si, potentD, neighb) {
+function upgradePet() {
+  window.location.replace("loggingP.html");
+  let e = window.Event.target
+}
+
+function addPetToData(i, ow, ad, pic, r, micro, spe, s, si, potentD, neighb) {
   let item = { microchip: micro, specie: spe, sex: s, size: si, potentDangerous: potentD, neighborhood: neighb };
+  /*let item = { id: i, owner: ow, addres: ad, picture: pic, race: r, microchip: micro, specie: spe, sex: s, size: si, potentDangerous: potentD, neighborhood: neighb };
+  */
   let d = JSON.parse(localStorage.getItem("data"));
   if (d) {
     d.unshift(item);
@@ -186,6 +207,7 @@ function addPetToData(micro, spe, s, si, potentD, neighb) {
   localStorage.setItem("data", d);
 }
 
+/*
 function validate(f) {
 
   var id = document.getElementById("id").value;
@@ -239,3 +261,4 @@ function validate(f) {
     return ok;
   }
 }
+*/

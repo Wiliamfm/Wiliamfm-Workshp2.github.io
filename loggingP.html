@@ -46,11 +46,35 @@
 
 
   <div class="container">
-    <form id="formId" method="GET" target="_self" onsubmit="upgradePet()">
+    <form id="formId" method="GET" target="_self" onsubmit="addPet()">
       <div class="row mb-3">
         <label for="id" class="col-sm-2 col-form-label">ID</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="id">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="owner" class="col-sm-2 col-form-label">DUEÑO</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="owner">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="address" class="col-sm-2 col-form-label">DIRECCIÓN</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="address">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="picture" class="col-sm-2 col-form-label">IMAGEN</label>
+        <div class="col-sm-10">
+          <input type="file" class="form-control" id="picture">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="race" class="col-sm-2 col-form-label">RAZA</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="race">
         </div>
       </div>
       <div class="row mb-3">

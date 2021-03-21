@@ -1,3 +1,5 @@
+var d;
+var table;
 /**
  * Upload table.
  */
@@ -5,21 +7,28 @@ function upload() {
   generateTable();
 }
 
+async function loadData() {
+  d = await d3.dsv(";", "./data/pets-citizens.csv");
+}
+
+
 /** 
  * Create table
 */
 function generateTable() {
-  let table = document.createElement("table");
-  table.id = "putatabla";
-  d3.dsv(";", "./data/pets-citizens.csv").then(function (data) {
+  loadData().then(function () {
+    document.getElementById("h6").innerHTML = "";
+    table = document.createElement("table");
+    table.id = "dataTable";
     let heads = ["Index"];
-    data.columns.forEach(element => {
+    d.columns.forEach(element => {
       heads.push(element);
     });
+    heads.push("ACTUALIZAR");
     addTableHeads(table, heads);
     let rows = [];
     let i = 0;
-    for (const values of data) {
+    for (const values of d) {
       let row = [];
       i++;
       row.push(i);
@@ -31,11 +40,10 @@ function generateTable() {
       rows.push(row);
     }
     addTableRows(table, rows);
+    //add the table to the body tag
+    let divTable = document.getElementById("divTable");
+    divTable.appendChild(table);
   });
-  addPagination();
-  //add the table to the body tag
-  let body = document.querySelector("body");
-  body.appendChild(table);
 }
 
 /**
@@ -78,25 +86,49 @@ function addTableRows(table, rows) {
       td.appendChild(txt);
       tr.appendChild(td);
     }
+    let td = document.createElement("button");
+    td.innerHTML = "ACTUALIZAR DATOS";
+    td.className = "btn btn-outline-primary";
+    tr.appendChild(td);
     tbody.appendChild(tr);
   }
   table.appendChild(tbody);
 }
 
-function addPagination() {
-  $(document).ready(function () {
-    $('#putatabla').DataTable({
-      'bSort': false,
-      'aoColumns': [
-        { sWidth: "45%", bSearchable: false, bSortable: false },
-        { sWidth: "45%", bSearchable: false, bSortable: false },
-        { sWidth: "10%", bSearchable: false, bSortable: false }
-      ],
-      "scrollCollapse": true,
-      "info": true,
-      "paging": true
-    });
+/**
+ * create the options for the select form of neighborhood 
+ * @param {object} d the data of the pets 
+ */
+function addNeighborhoodForm() {
+  loadData().then(function () {
+    let selectForm = document.getElementById("neighborhood");
+    let items = [];
+    for (const row of d) {
+      if (!items.includes(row.neighborhood) && row.neighborhood != "") {
+        let neighborhood = document.createElement("option");
+        items.push(row.neighborhood);
+        neighborhood.value = row.neighborhood;
+        neighborhood.text = row.neighborhood;
+        selectForm.appendChild(neighborhood);
+      }
+    }
   });
+}
+
+function upgradePet() {
+  alert("Mascota registrada")
+  let id = document.getElementById("id");
+  let microchip = document.getElementById("microship");
+  let specie = document.getElementById("specie");
+  let sex = document.getElementById("sex");
+  let size = document.getElementById("size");
+  let potentDangerous = document.getElementById("potentDangerous");
+  let neighborhood = document.getElementById("neighborhood");
+  addPetToData();
+  alert(d);
+}
+
+function addPetToData() {
 }
 
 function validate(f) {

@@ -22,15 +22,15 @@ function generateTable() {
     let table = document.createElement("table");
     table.id = "dataTable";
     let heads = ["Index"];
+   for (const title in d[0]) {
+      heads.push(title);
+    }
+    heads.push("ACTUALIZAR");
     heads.push("ID");
     heads.push("Owner");
     heads.push("Race");
     heads.push("Address");
     heads.push("Picture");
-    for (const title in d[0]) {
-      heads.push(title);
-    }
-    heads.push("ACTUALIZAR");
     addTableHeads(table, heads);
     let rows = [];
     let i = 0;
@@ -190,8 +190,14 @@ function addPet() {
 }
 
 function upgradePet() {
-  window.location.replace("loggingP.html");
+  //window.location.replace("loggingP.html");
+  window.location.replace("upgradingP.html");
   let e = window.Event.target
+  let owner = document.getElementById("owner").value;
+  let address = document.getElementById("address").value;
+  let picture = document.getElementById("picture").value;
+  let race = document.getElementById("race").value;
+  //addAdditionalData(owner,address,picture,race);
 }
 
 function addPetToData(i, ow, ad, pic, r, micro, spe, s, si, potentD, neighb) {
